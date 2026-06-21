@@ -20,23 +20,32 @@ class View(ft.UserControl):
 
     def load_interface(self):
         # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
+        self._title = ft.Text("Analizza vendite", color="blue", size=24)
         self._page.controls.append(self._title)
 
-        #ROW with some controls
-        # text field for the name
-        self.txt_name = ft.TextField(
-            label="name",
-            width=200,
-            hint_text="Insert a your name"
+        self.txt_compagnie = ft.TextField(
+            label="Compagnie minimo",
+            width=400,
+            hint_text="Inserisci una distanza minima"
         )
 
-        # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
+        # bottone che crea il grafo con  nodi e con archi con delle cindizioni
+        self.btn_analizza = ft.ElevatedButton(text="Analizza Vendite", on_click=self._controller.handle_analizza)
+        # menu dropdown
+        self._ddAnno = ft.Dropdown(label="Anno")
+        self._ddBrand = ft.Dropdown(label="Brand")
+        self._ddRetailer = ft.Dropdown(label="Retailer")
+        self._btnTopVendite = ft.ElevatedButton(text="Top Vendite",
+                                                     on_click=self._controller.handle_top_vendite)
+        self._controller.load(self._ddAnno)
+        self._controller.load(self._ddRetailer)
+        self._controller.load(self._ddBrand)
+        row1 = ft.Row([self._ddAnno,self._ddBrand, self._ddRetailer],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
-
+        row2 = ft.Row([self.btn_analizza,self._btnTopVendite],
+                      alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(self.txt_result)
